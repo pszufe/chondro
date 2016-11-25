@@ -2,6 +2,9 @@
 Decision tree sensitivity analysis with Chondro
 ===============================================
 
+[For full documentation see the docs folder]
+
+
 Library overview
 ----------------
 
