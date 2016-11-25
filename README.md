@@ -11,22 +11,18 @@ article. All the methods support both for separable and non-separable
 decision trees. Chondro has been developed with the Python3 and has been
 tested with Anaconda 2.3.0 running Python3 version 3.4.4.
 
-The basic Chondro’s functionality is described in Table \[tab:chondro\].
 The software can load files stored by the (available at
 <http://www.silverdecisions.pl>) or uses internal JSON format. A DT is
 presented as a Python dictionary structure with each node described with
 a `type` (choice,decision,final), `id`, `value` (pay-off), and a list
 (`nodes`) containing child nodes. The probability values `p` (for
 separable DTs) or identifiers `pi` (for non-separable DTs) are stored in
-children nodes of a chance node – full JSON schema specification for DT
-representation is available at section. \[sec:jsonschema\]. For a quick
-overview please see a sample DT insee Figure \[fig:json1\]. Chondro
+children nodes of a chance node. Chondro
 supports non separable DTs through injection of probability values as a
 dictionary. In order to perform stability and perturbation analysis for
 non-separable decision trees a function that generates probability
 dictionary on the base of fundamental probabilities should be provided
-to a respective algorithm. An example of such function has been
-presented in Listing \[lst:codetrans\].
+to a respective algorithm. 
 
 It should be noted that Chondro heavily relies on the Python `fractions`
 package for numerical computing and hence enables calculation and
@@ -34,32 +30,10 @@ comparison of the exact values for P-optimal decisions. In this way we
 managed to avoid numerical problems when expected values at different
 nodes are equal.
 
-<span>|l|X|X|</span> **function** & **description** & **output**\
-& loads a DT from SilverDecisions or internal `*.json` file & a Python
-dictionary holding a decision tree (see Listing \[lst:jsonschema\] for
-full DT representation specification)\
-& saves a DT to a JSON file & file saved to disk follows format
-presented in Listing \[lst:jsonschema\]\
-& recursively calculates an optimal value for a given separable or
-non-separable DT & expected value for a tree and P-optimal decisions for
-every node\
-& prints a tree to the standard output & textual representation of a DT
-– e.g. see \[lst:simpleresults\]\
-& finds stability for a separable or non-separable DT & stability
-coefficient for every optimal decision in a given DT\
-& performs a sweep over $\varepsilon$ values in order to find epsilon
-ranges for $P_{mode}$ perturbation & dictionary of $\varepsilon$ ranges
-and P-optimal decisions for perturbations\
-& performs a sweep over the full grid (non-separable DT) or
-$\varepsilon$ (separable DT) values and finds epsilon ranges for
-$P_{\max,\varepsilon}$ and $P_{\min,\varepsilon}$ perturbations &
-dictionary of $\varepsilon$ ranges and P-optimal decisions for
-perturbations\
-
-A separable decision tree and a corresponding JSON representation. The
+Below you can find a sample separable decision tree and a corresponding JSON representation. The
 probability and payoff values are given as string rather than number
 values in order to enable a proper conversion with the `fractions`
-module. The full JSON schema decision tree specification -- see docs folder
+module. 
 
 
     {
@@ -91,9 +65,8 @@ module. The full JSON schema decision tree specification -- see docs folder
       }
     }
 
-![A non-separable decision tree and a part of the corresponding JSON
-representation.<span
-data-label="fig:json2"></span>](gas.png){width="85.00000%"}
+A sample non-separable decision tree and a part of the corresponding JSON
+representation.
 
     {
         "tree": {
@@ -147,11 +120,11 @@ steps:
 
 4.  perform the sensitivity analysis
 
-    -   use to calculate the stability
+    -   calculate the stability
 
-    -   use to calculate $P_{mode,\varepsilon}$
+    -   calculate $P_{mode,\varepsilon}$
 
-    -   use to calculate $P_{\min,\varepsilon}$ and
+    -   calculate $P_{\min,\varepsilon}$ and
         $P_{\max,\varepsilon}$
 
 Listing \[lst:codesimple\] presents a sample code to solve the decision
