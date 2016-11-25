@@ -127,99 +127,38 @@ steps:
     -   calculate $P_{\min,\varepsilon}$ and
         $P_{\max,\varepsilon}$
 
-Listing \[lst:codesimple\] presents a sample code to solve the decision
-tree. We first start by loading the module (line \[py:import\]). Next a
+Listing below presents a sample code to solve the decision
+tree. We first start by loading the module. Next a
 JSON file is loaded with the function. It should be noted that this
 function supports JSON files in both internal dictionary format as well
 as files that can be exported from SilverDecisions software (available
-at <http://www.silverdecisions.pl>). The function (line \[py:solve\])
+at <http://www.silverdecisions.pl>). The function `solve`
 returns a tuple where the first element is the expected value of DT and
 the second dictionary of optimal decisions.
 
-It should be noted that in Chondro a decision tree is represented as a
-python dictionary - a direct representation of the JSON file presented
-in the Figure \[fig:json1\]. We assume that each node in a tree can be
-identified by a path represented as a Python tuple of indices. The root
-node is represented by `()` (an empty tuple) the first node (`c1` in
-Listing \[lst:simpleresults\]) is represented by `(0,)` (one element
-tuple) while the node `t3` could be presented as `(1,0)`. Node paths are
-used to for represent $P$-optimal decisions. Further in the text the
-tuple of node indices representing a path in the graph will be called
-`node_path_tuple`. It should be noted that all sensitivity analysis
-methods (, and ) provide a `use_labels` parameter. If it is set to
-`True` (the default value) Chondro uses `label` attribute (see section
-\[sec:jsonschema\]) of decision tree nodes rather than indices to
-represent paths in the tree. For example consider a DT in Figure
-\[fig:json2\]. The $P$-optimal decision can be presented a tuple of two
-`node_path_tuple`s either as `((2, 0, 0), (2, 1, 1))` or
-`((test, negative, sell), (test, positive, dig))`. The $P$-optimal
-decision consists of two elements because the test performed at c2 node
-can have two results - can be either positive or negative. Further in
-the text a tuple of `node_path_tuple`s will be called
-*`decision_path_tuple`*.
 
-The function returns the optimal decision paths in the form of a
-following dictionary:
-$$\texttt{\{ node\_path\_tuple : [\textit{list of $P$-optimal node indices}] \}}$$
-It should be noted that the function changes the state of the `tree`
-object – now additionally it stores the data on optimal solution. The
-function enables printing a human-readable textual representation of a
-DT to the console (line \[py:print\]). A sample textual tree
-representation can be found in Listing \[lst:simpleresults\].
-
-Once a decision tree is loaded and solved a sensitivity analysis (SA)
-can be performed. The first step is calculating the stability value and
-$P_{mode,\varepsilon}$. The function (line \[py:fs\]) returns results in
-the form of the following dictionary of $P$-optimal decisions:
-$$\texttt{\{ decision\_path\_tuple : stability\_epsilon \} }$$
-
-In the next step, the $P_{mode,\varepsilon}$ perturbations is calculated
-(line \[py:pm\]). The output of the function is the following:
-$$\texttt{\{ (e1,e2) : [\textit{list of} decision\_path\_tuple\textit{s}] \}}$$
-where `e1` and `e2` represent some range of $\varepsilon$ values where
-the set of $P$-optimal decisions does not change (please node that a
-decision tree can have more than one $P$-optimal decision and hence a
-list is here used).
-
-Finally, $P_{\min,\varepsilon}$ and $P_{\max,\varepsilon}$ are
-calculated with the function (line \[py:pp\]). The results will be
-returned in the following format: $$\begin{split}   
-        \texttt{\{ }
-        \texttt{"max\_min" : \{ (e1,e2) : [\textit{list of} decision\_path\_tuple\textit{s}] \},}\\
-        \texttt{"max\_max" : \{ (e1,e2) : [\textit{list of} decision\_path\_tuple\textit{s}] \}}
-        \texttt{ \}}                  
-    \end{split}$$ Both elements of the above dictionary (`max_min` and
-`max_max`) are analogous to the output of the function. The value of
-`max_min` represents $P_{\min,\varepsilon}$ perturbation sensitivity
-while the value of `max_max` represents $P_{\max,\varepsilon}$
-perturbation sensitivity.
-
-It should be noted that for separable tree analysis Chondro supports the
-$s\colon\mathcal{C}\rightarrow[0,1]$ function representing whether a
-given chance node should be subject to sensitivity analysis. Simply add
-the `s` property to any chance node in a separable tree. The default
-value is $\texttt{s}=1$ i.e. all chance nodes in a separable tree will
-be considered in sensitivity analysis of a DT.
-
-    (*@\label{py:import}@*)from chondro import *
+    from chondro import *
 
     file_name = "example_separable_Fig5.json"
     tree = load_tree(file_name)
-    (*@\label{py:solve}@*)ev,dec=solve_tree(tree)
+    ev,dec=solve_tree(tree)
     print ("DT has been solved, the expected value is ev: "+str(ev)+ \
            " reachable decisions: "+str(get_reachable(dec)))
 
-    (*@\label{py:print}@*)print_tree(tree)
+    print_tree(tree)
 
-    (*@\label{py:fs}@*)stabi = find_stability(tree,precision=Fraction("1/10000") )
+    stabi = find_stability(tree,precision=Fraction("1/10000") )
     print ("DT stability", stabi)
 
-    (*@\label{py:pm}@*)ress = find_perturbation_mode(tree,precision=Fraction("1/1000"))
+    ress = find_perturbation_mode(tree,precision=Fraction("1/1000"))
     print("DT perturbation mode",ress)
 
-    (*@\label{py:pp}@*)ress = find_perturbation_pessopty(tree,precision=Fraction("1/1000"))
+    ress = find_perturbation_pessopty(tree,precision=Fraction("1/1000"))
     for key in ress.keys():
         print ("P_"+key, ress[key])     
+
+
+Sample output
 
     d1:decision
       *c1:chance (ev=48)
@@ -239,7 +178,7 @@ The Chondro library is capable of processing both separable and non
 separable trees. Due to much larger computational complexity of
 non-separable the library has different internal implementation of
 stability and perturbation algorithms for both tree types. A sample
-non-separable decision tree has been presented in Figure \[fig:json2\].
+non-separable decision tree has been presented in the first paragraph of this page.
 
 The support for non-separable trees is achieved by providing to the
 function an additional parameter `derived_probs_dict` that contains a
@@ -260,38 +199,36 @@ a set of fundamental probabilities and providing a function transferring
 those probabilities into a key-probability dictionary. Hence, the
 methods , and require providing two additional parameters:
 
--   *derived\_probs\_lambda* - a function that calculates derived
+-   *derived_probs_lambda* - a function that calculates derived
     probabilities on the base of fundamental ones. The function should
     return a dictionary where keys are corresponding to `pi` values in a
     decision tree.
 
--   *fundamental\_probs* - a list of initial vales of fundamental
+-   *fundamental_probs* - a list of initial vales of fundamental
     probabilities
 
 An example function that calculates probabilities on the base of
-fundamental ones has been presented in (e.g. see Listing
-\[lst:codetrans\].
+fundamental ones has been presented below
 
 The initial values for fundamental probabilities is represented as a
 list of events where each event is described by a list of outcome
 probabilities. Moreover, if there are $n$ possible outcomes of an event
-the probabilities of $n-1$ should be only passed - the last $n$-th
+the probabilities of n-1 should be only passed - the last n-th
 probability will be automatically calculated. For example suppose that
 we consider two fundamental probabilities result of throwing a coin and
 a result of throwing a four-sided dice. In that case the fundamental
 probabilities in Chondro will be presented as:
 `[[0.5],[0.25,0.25,0.25]]`.
 
-In Listing \[lst:codetrans\] an example processing of a non-separable
+In Listing below an example processing of a non-separable
 decision tree has been presented. Firstly, fundamental probabilities
-values need to be defined (line \[py:sep\_fund\_probs\]). Those values
-can be used to calculate a $P$-optimal decision (line
-\[py:sep\_solve\]). In the line \[py:sep\_s\] we defined $s$ values
+values need to be defined. Those values
+can be used to calculate a P-optimal decision. Next, we defined `s` values
 representing whether a particular event (for which fundamental
 probabilities have been given) should be a subject of sensitivity
 analysis. Finally, we perform the stability analysis - in our
-computations we limit the maximum considered value of $\varepsilon$ to
-$1$.
+computations we limit the maximum considered value of `epsilon` to
+`1`.
 
     def tree_derived_probs_lambda(probs): 
         p=dict()
@@ -313,10 +250,10 @@ $1$.
     from chondro import *
 
     tree = load_tree("exaple_non_separable_fig7.json")
-    (*@\label{py:sep_fund_probs}@*)fund_probs = [[Fraction("7/10")],[Fraction("9/10")],[Fraction("7/10")]]
-    (*@\label{py:sep_solve}@*)solve_tree(tree,tree_derived_probs_lambda(fund_probs))
+    fund_probs = [[Fraction("7/10")],[Fraction("9/10")],[Fraction("7/10")]]
+    solve_tree(tree,tree_derived_probs_lambda(fund_probs))
     print_tree(tree)
-    (*@\label{py:sep_s}@*)s = [1,0.1,0.1]
+    s = [1,0.1,0.1]
     stabi = find_stability(tree,tree_derived_probs_lambda, \
               fund_probs,precision=Fraction("1/100"),s=s,max_epsilon=1) )
     print ("stability", stabi)
