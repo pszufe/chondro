@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+docs/Chondro_v023.synctex.gz
+docs/Chondro_v023.aux
+docs/Chondro_v023.out
+docs/Chondro_v023.idx

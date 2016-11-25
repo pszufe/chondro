@@ -54,7 +54,7 @@
 
 	\emph{Chondro} -- is an analytical engine that implements the decision tree (DT) sensitivity analysis (SA) algorithms described in the above article. All the methods support both for separable and non-separable decision trees. Chondro has been developed with the Python3 and has been tested with Anaconda 2.3.0 running Python3 version 3.4.4. 
 	
-	The basic Chondro's functionality is described in Table \ref{tab:chondro}. The software can load files stored by the \mbox{SilverDecisions.pl}. A DT is presented as a Python dictionary structure with each node described with a \texttt{type} (choice,decision,final), \texttt{id}, \texttt{value} (pay-off), and a list (\texttt{nodes}) containing child nodes. The probability values \texttt{p} (for separable DTs) or identifiers \texttt{pi} (for non-separable DTs)  are stored in children nodes of a chance node -- full JSON schema specification for DT representation is available at section.  \ref{sec:jsonschema}. For a quick overview please see a sample DT insee Figure \ref{fig:json1}.
+	The basic Chondro's functionality is described in Table \ref{tab:chondro}. The software can load files stored by the \mbox{SilverDecisions} (available at \url{http://www.silverdecisions.pl}) or uses internal JSON format. A DT is presented as a Python dictionary structure with each node described with a \texttt{type} (choice,decision,final), \texttt{id}, \texttt{value} (pay-off), and a list (\texttt{nodes}) containing child nodes. The probability values \texttt{p} (for separable DTs) or identifiers \texttt{pi} (for non-separable DTs)  are stored in children nodes of a chance node -- full JSON schema specification for DT representation is available at section.  \ref{sec:jsonschema}. For a quick overview please see a sample DT insee Figure \ref{fig:json1}.
 	Chondro supports non separable DTs through  injection of probability values as a dictionary. In order to perform stability and perturbation analysis for non-separable decision trees a function that generates probability dictionary on the base of fundamental probabilities should be provided to a respective algorithm. An example of such function has been presented in Listing \ref{lst:codetrans}.
 	
 	It should be noted that Chondro heavily relies on the Python \texttt{fractions} package for numerical computing and hence enables calculation and comparison of the exact values for P-optimal decisions. In this way we managed to avoid numerical problems when expected values at different nodes are equal.	
@@ -63,7 +63,7 @@
 		\begin{tabularx}{\textwidth}{|l|X|X|}
 			\hline 
 			\textbf{function} & \textbf{description} & \textbf{output}\\ \hline
-			\hyperref[index:chondro.load_tree]{\texttt{load\_tree}} & loads a DT from a JSON or SilverDecisions.pl \texttt{*.dtf} file & a Python dictionary holding a decision tree (see Listing \ref{lst:jsonschema} for full DT representation specification)\\ \hline
+			\hyperref[index:chondro.load_tree]{\texttt{load\_tree}} & loads a DT from  SilverDecisions or internal \texttt{*.json} file & a Python dictionary holding a decision tree (see Listing \ref{lst:jsonschema} for full DT representation specification)\\ \hline
 			\hyperref[index:chondro.save_tree]{\texttt{save\_tree}} & saves a DT to a JSON file & file saved to disk follows format presented in Listing \ref{lst:jsonschema} \\ \hline
 			\hyperref[index:chondro.solve_tree]{\texttt{solve\_tree}} & recursively calculates an optimal value for a given separable or non-separable DT & expected value for a tree and P-optimal decisions for every node \\ \hline
 			\hyperref[index:chondro.print_tree]{\texttt{print\_tree}} & prints a tree to the standard output & textual representation of a DT -- e.g. see \ref{lst:simpleresults} \\ \hline			
@@ -168,7 +168,7 @@
 	\section{Quick start - sensitivity analysis of separable trees}
 	A typical example session with  Chondro might consist of the following steps:
 	\begin{enumerate}
-		\item create a JSON representation of a DT (either by saving a DT from SilverDecisions and converting it to JSON with \hyperref[index:chondro.load_tree]{\texttt{load\_tree}} and \hyperref[index:chondro.save_tree]{\texttt{save\_tree}} functions or create a JSON file manually)
+		\item create a JSON representation of a DT (either by saving a DT from SilverDecisions or manually creating a JSON file)		
 		\item Use the \hyperref[index:chondro.load_tree]{\texttt{load\_tree}} function to load a DT to memory
 		\item Use the \hyperref[index:chondro.solve_tree]{\texttt{solve\_tree}} function to calculate optimal decision for the DT. The function supports non-separable trees by accepting a probability dictionary.
 		\item perform the sensitivity analysis
@@ -182,7 +182,7 @@
 
 	\end{enumerate}
 	
-	Listing \ref{lst:codesimple} presents a sample code to solve the decision tree. We first start by loading the module (line \ref{py:import}). Next a JSON file is loaded with the \hyperref[index:chondro.load_tree]{\texttt{load\_tree}}  function. It should be noted that this function also supports *.dtf files that can be exported from SilverDecisions.pl. The function \hyperref[index:chondro.solve_tree]{\texttt{solve\_tree}} (line \ref{py:solve}) returns a tuple where the first element is the expected value of DT and the second dictionary of optimal decisions. 
+	Listing \ref{lst:codesimple} presents a sample code to solve the decision tree. We first start by loading the module (line \ref{py:import}). Next a JSON file is loaded with the \hyperref[index:chondro.load_tree]{\texttt{load\_tree}}  function. It should be noted that this function supports JSON files in both internal dictionary format as well as files that can be exported from SilverDecisions software (available at \url{http://www.silverdecisions.pl}). The function \hyperref[index:chondro.solve_tree]{\texttt{solve\_tree}} (line \ref{py:solve}) returns a tuple where the first element is the expected value of DT and the second dictionary of optimal decisions. 
 	
 	It should be noted that in Chondro a decision tree is represented as a python dictionary - a direct representation of the JSON file presented in the Figure \ref{fig:json1}. We assume that each node in a tree can be identified by a path represented as a Python tuple of indices. The root node is represented by \texttt{()} (an empty tuple) the first node (\texttt{c1} in Listing \ref{lst:simpleresults}) is represented by \texttt{(0,)} (one element tuple) while the node \texttt{t3}  could be presented as \texttt{(1,0)}. Node paths are used to for represent $P$-optimal decisions. Further in the text the tuple of node indices representing a path in the graph will be called \texttt{node\_path\_tuple}.  It should be noted that all sensitivity analysis methods (\hyperref[index:chondro.find_stability]{\texttt{find\_stability}},
 	\hyperref[index:chondro.find_perturbation_mode]{\texttt{find\_perturbation\_mode}} and  \hyperref[index:chondro.find_perturbation_pessopty]{\texttt{find\_perturbation\_pessopty}}) provide a \texttt{use\_labels} parameter. If it is set to \texttt{True} (the default value) Chondro uses  \texttt{label} attribute (see section \ref{sec:jsonschema}) of decision tree nodes rather than indices to represent paths in the tree. For example consider a DT in Figure \ref{fig:json2}. The $P$-optimal decision can be presented a tuple of two \texttt{node\_path\_tuple}s either as \texttt{((2, 0, 0), (2, 1, 1))} or  \texttt{(("test", "negative", "sell"), ("test", "positive", "dig"))}. The $P$-optimal decision consists of two elements because the test performed at c2 node can have two results - can be either positive or negative. Further in the text a tuple of \texttt{node\_path\_tuple}s will be called \emph{\texttt{decision\_path\_tuple}}.
@@ -555,7 +555,7 @@ for key in ress.keys():
 	\phantomsection\label{index:chondro.load_tree}\pysiglinewithargsret{\code{chondro.}\bfcode{load\_tree}}{\emph{file\_name}, \emph{use\_fractions=True}}{}
 	Loads a decision tree defintion from a give file.
 	The file can be either a plain dict saved to JSON or a SilverDecisions 
-	file. If a SilverDecisions file has several trees only the first is read.
+	file. If a SilverDecisions file has several trees only the first decision tree in a file is read.
 	
 	\emph{file\_name} - a name of the file
 	
