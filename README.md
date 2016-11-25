@@ -5,10 +5,6 @@ Decision tree sensitivity analysis with Chondro
 Library overview
 ----------------
 
-The goal of this document is to describe the Chobdro library that
-accompanies our paper titled *“A unified framework for global
-sensitivity analysis of decision trees”*.
-
 *Chondro* – is an analytical engine that implements the decision tree
 (DT) sensitivity analysis (SA) algorithms described in the above
 article. All the methods support both for separable and non-separable
@@ -60,12 +56,11 @@ $P_{\max,\varepsilon}$ and $P_{\min,\varepsilon}$ perturbations &
 dictionary of $\varepsilon$ ranges and P-optimal decisions for
 perturbations\
 
-![A separable decision tree and a corresponding JSON representation. The
+A separable decision tree and a corresponding JSON representation. The
 probability and payoff values are given as string rather than number
 values in order to enable a proper conversion with the `fractions`
-module. The full JSON schema decision tree specification see Listing
-\[lst:jsonschema\].<span
-data-label="fig:json1"></span>](case1.png){width="65.00000%"}
+module. The full JSON schema decision tree specification -- see docs folder
+
 
     {
       "tree": {
