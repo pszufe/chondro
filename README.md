@@ -123,14 +123,7 @@ steps:
 
 4.  perform the sensitivity analysis
 
-    -   calculate the stability
-
-    -   calculate $P_{mode,\varepsilon}$
-
-    -   calculate $P_{\min,\varepsilon}$ and
-        $P_{\max,\varepsilon}$
-
-Listing below presents a sample code to solve the decision
+The Listing below presents a sample code to solve the decision
 tree. We first start by loading the module. Next a
 JSON file is loaded with the function. It should be noted that this
 function supports JSON files in both internal dictionary format as well
