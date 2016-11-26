@@ -1,6 +1,6 @@
 
-Decision tree sensitivity analysis with Chondro
-===============================================
+Chondro - decision tree sensitivity analysis library 
+====================================================
 
 Very quick start
 ----------------
@@ -120,7 +120,7 @@ representation.
                                 }, 
     (... in order to increase readibility only part og tree has been shown ...)
 
-Densitivity analysis of separable trees
+Sensitivity analysis of separable trees
 ---------------------------------------
 
 A typical example session with Chondro might consist of the following
