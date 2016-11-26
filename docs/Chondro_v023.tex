@@ -61,7 +61,7 @@
 	
 	\begin{table}
 		\begin{tabularx}{\textwidth}{|l|X|X|}
-			\hline 
+			\hline  
 			\textbf{function} & \textbf{description} & \textbf{output}\\ \hline
 			\hyperref[index:chondro.load_tree]{\texttt{load\_tree}} & loads a DT from  SilverDecisions or internal \texttt{*.json} file & a Python dictionary holding a decision tree (see Listing \ref{lst:jsonschema} for full DT representation specification)\\ \hline
 			\hyperref[index:chondro.save_tree]{\texttt{save\_tree}} & saves a DT to a JSON file & file saved to disk follows format presented in Listing \ref{lst:jsonschema} \\ \hline
@@ -553,9 +553,11 @@ for key in ress.keys():
 
 \begin{fulllineitems}
 	\phantomsection\label{index:chondro.load_tree}\pysiglinewithargsret{\code{chondro.}\bfcode{load\_tree}}{\emph{file\_name}, \emph{use\_fractions=True}}{}
+	
 	Loads a decision tree defintion from a give file.
-	The file can be either a plain dict saved to JSON or a SilverDecisions 
-	file. If a SilverDecisions file has several trees only the first decision tree in a file is read.
+	The file can be either a plain dict saved to JSON or a SilverDecisions JSON
+	file or a file from previous SilverDecisions version. 
+	If a SilverDecisions file has several trees only the first is read.
 	
 	\emph{file\_name} - a name of the file
 	
