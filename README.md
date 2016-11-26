@@ -230,9 +230,6 @@ a result of throwing a four-sided dice. In that case the fundamental
 probabilities in Chondro will be presented as:
 `[[0.5],[0.25,0.25,0.25]]`.
 
-![A non separable decision tree](docs/gas_small.png)
-
-
 In Listing below an example processing of a non-separable
 decision tree has been presented. Firstly, fundamental probabilities
 values need to be defined. Those values
