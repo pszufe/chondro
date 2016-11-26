@@ -2,15 +2,26 @@
 Decision tree sensitivity analysis with Chondro
 ===============================================
 
-[For full documentation see the docs folder]
-
-
-Library overview
+Very quick start
 ----------------
 
+    from chondro import *
+    t = load_tree("examples/case1.json")
+    print_tree(t)
+    solve_tree(t)
+    print_tree(t)
+    print(find_stability(t))
+    print(find_perturbation_pessopty(t))
+    print(find_perturbation_mode(t))
+    
+
+
+Library overview [for full documentation see the docs folder]
+-------------------------------------------------------------
+
 *Chondro* – is an analytical engine that implements the decision tree
-(DT) sensitivity analysis (SA) algorithms described in the above
-article. All the methods support both for separable and non-separable
+(DT) sensitivity analysis (SA) algorithms. All the methods support both 
+for separable and non-separable
 decision trees. Chondro has been developed with the Python3 and has been
 tested with Anaconda 2.3.0 running Python3 version 3.4.4.
 
@@ -72,6 +83,7 @@ module.
 
 A sample non-separable decision tree and a part of the corresponding JSON
 representation.
+![A simple decision tree](docs/gas_small.png)
 
     {
         "tree": {
@@ -106,10 +118,10 @@ representation.
                                     "id": "t4", 
                                     "value": "600"
                                 }, 
-    (...)
+    (... in order to increase readibility only part og tree has been shown ...)
 
-Quick start - sensitivity analysis of separable trees
------------------------------------------------------
+Densitivity analysis of separable trees
+---------------------------------------
 
 A typical example session with Chondro might consist of the following
 steps:
