@@ -38,6 +38,8 @@ probability and payoff values are given as string rather than number
 values in order to enable a proper conversion with the `fractions`
 module. 
 
+![A simple decision tree](docs/case1_small.png)
+
 
     {
       "tree": {
@@ -215,6 +217,9 @@ we consider two fundamental probabilities result of throwing a coin and
 a result of throwing a four-sided dice. In that case the fundamental
 probabilities in Chondro will be presented as:
 `[[0.5],[0.25,0.25,0.25]]`.
+
+![A non separable decision tree](docs/gas_small.png)
+
 
 In Listing below an example processing of a non-separable
 decision tree has been presented. Firstly, fundamental probabilities
