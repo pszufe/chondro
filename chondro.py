@@ -146,6 +146,20 @@ def load_tree(file_name, use_fractions=True):
                 parent_node['nodes'] += [child_node]
     elif "trees" in d: 
         #this is a new JavaScript Silverdecisions file
+        def build(node, prob=None, value=None):
+            if node is None or "type" not in node:
+                return {}
+            res = {}
+            res["type"] = node["type"] if node["type"] != "terminal" else "final"
+            res["id"] = node["name"] if "name" in node else ""
+            if prob is not None and prob != "":
+                res["p"] = prob
+            if value is not None and value != "":
+                res["value"] = value
+            if 'childEdges' in node and len(node['childEdges'])>0:
+                res["nodes"] = [build(n['childNode'], n["probability"] if "probability" in n else None,n["payoff"] if "payoff" in n else None ) for n in node['childEdges']]
+            return res
+    
         tree = None
         if len(d["trees"]) > 0:
             node = d["trees"][0]
@@ -160,19 +174,6 @@ def load_tree(file_name, use_fractions=True):
     return tree
 
 
-def build(node, prob=None, value=None):
-    if node is None or "type" not in node:
-        return {}
-    res = {}
-    res["type"] = node["type"] if node["type"] != "terminal" else "final"
-    res["id"] = node["name"] if "name" in node else ""
-    if prob is not None and prob != "":
-        res["p"] = prob
-    if value is not None and value != "":
-        res["value"] = value
-    if 'childEdges' in node and len(node['childEdges'])>0:
-        res["nodes"] = [build(n['childNode'], n["probability"] if "probability" in n else None,n["payoff"] if "payoff" in n else None ) for n in node['childEdges']]
-    return res
     
 
 def save_tree(tree, file_name, overwrite=False):
@@ -185,6 +186,7 @@ def save_tree(tree, file_name, overwrite=False):
 
     *overwrite* - should the file be overwritten if it exists
     '''
+    
     if isfile(file_name) and not overwrite:
         raise Exception("The file " + str(file_name) +
                         " already exists and overwrite is set to False")
