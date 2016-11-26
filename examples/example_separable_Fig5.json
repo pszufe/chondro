@@ -1,0 +1,32 @@
+
+
+{
+  "tree": {
+      "type":"decision", "id":"d1",
+      "nodes": [
+            { 
+				"type":"chance","id":"c1",
+				"nodes": [
+					{"p":"0.6","type":"final","id":"t1","value": "60" },
+					{"p":"0.4","type":"final","id":"t2","value": "30" }				
+				]				         
+            },
+			{ 
+				"type":"chance","id":"c2",
+				"nodes": [
+					{"p":"0.7","type":"final","id":"t3","value": "20" },
+					{"p":"0.3","type":"final","id":"t4","value": "100" }				
+				]				         
+            },
+			{ 
+				"type":"chance","id":"c3",
+				"nodes": [
+					{"p":"0.8","type":"final","id":"t5","value": "40" },
+					{"p":"0.2","type":"final","id":"t6","value": "60" }	                   
+				]
+            }
+			
+			
+          ]
+    }
+}

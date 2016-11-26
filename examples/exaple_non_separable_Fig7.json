@@ -1,0 +1,110 @@
+{
+    "tree": {
+        "type": "decision", 
+        "id": "d1",
+        "nodes": [
+            {
+                "type": "final", 
+                "label":"sell",
+                "id": "t1", 
+                "value": "800"
+            }, 
+            {
+                "type": "chance", 
+                "label":"dig",
+                "id": "c1", 
+                "value": "-300",
+                "nodes": [
+                    {
+                        "pi": "gas", "label":"gas",
+                        "type": "final", 
+                        "id": "t2", 
+                        "value": "2500"
+                    }, 
+                    {
+                        "pi": "no_gas", "label":"no_gas",
+                        "type": "final", 
+                        "id": "t3", 
+                        "value": "0"
+                    }
+                ] 
+            }, 
+            {
+                "type": "chance", 
+                "label":"test",
+                "id": "c2", 
+                "value": "-50",
+                "nodes": [
+                    {
+                        "pi": "neg._test", "label":"negative",
+                        "type": "decision", 
+                        "id": "d2",
+                        "nodes": [
+                            {
+                                "type": "final", 
+                                "label":"sell",
+                                "id": "t4", 
+                                "value": "600"
+                            }, 
+                            {
+                                "type": "chance", 
+                                "label":"dig",
+                                "id": "c3", 
+                                "value": "-300",
+                                "nodes": [
+                                    {
+                                        "pi": "gas|neg._test", "label":"gas",
+                                        "type": "final", 
+                                        "id": "t5", 
+                                        "value":"2500", "_c":"2500"
+                                    }, 
+                                    {
+                                        "pi": "no_gas|neg._test", "label":"no_gas",
+                                        "type": "final", 
+                                        "id": "t6", 
+                                        "value": "0", "_c":"0"
+                                    }
+                                ]
+
+                            }
+                        ] 
+                        
+                    }, 
+                    {
+                        "pi": "pos._test", "label":"positive",
+                        "type": "decision", 
+                        "id": "d3",
+                        "nodes": [
+                            {
+                                "type": "final", 
+                                "label":"sell",
+                                "id": "t7", 
+                                "value": "1000"
+                            }, 
+                            {
+                                "type": "chance", 
+                                "label":"dig",
+                                "id": "c4", 
+                                "value": "-300",
+                                "nodes": [
+                                    {
+                                        "pi": "gas|pos._test", "label":"gas",
+                                        "type": "final", 
+                                        "id": "t8", 
+                                        "value": "2500"
+                                    }, 
+                                    {
+                                        "pi": "no_gas|pos._test", "label":"no_gas",
+                                        "type": "final", 
+                                        "id": "t9", 
+                                        "value": "0"
+                                    }
+                                ]
+                            }
+                        ]                        
+                    }
+                ]
+            }
+        ]
+    }
+}
