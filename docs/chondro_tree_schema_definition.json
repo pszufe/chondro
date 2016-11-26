@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "value": { "type": ["string","number"] },
+        "id": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "probabilities": {
+      "type": "object",
+       "properties": {
+          "p": { "type":  ["string","number"] },
+          "pi": { "type":  "string"}
+       },
+       "oneOf" : [{"required" : ["p"]},{"required" : ["pi"]}]
+    },
+    "best": {
+      "type": "object",
+       "properties": {"best": { "type":  "boolean" }}      
+    },
+    "node-decision": {
+      "allOf": [
+        {"$ref": "#/definitions/node" },
+        { "properties" : {
+          "type":{"type":"string","enum": ["decision"]},
+          "nodes": {
+            "type": "array",
+            "items": { "oneOf": [
+	           {"allOf": [
+	             { "$ref": "#/definitions/node-decision" },
+	             { "$ref": "#/definitions/best" }
+	           ]},
+	           {"allOf": [
+	             { "$ref": "#/definitions/node-chance" },
+	             { "$ref": "#/definitions/best" }
+	           ]},
+	           {"allOf": [
+	             { "$ref": "#/definitions/node-final" },
+	             { "$ref": "#/definitions/best" }
+	           ]}
+	         ]
+            }
+          }
+        }}
+      ],
+      "required": ["type","nodes"]
+    },
+    "node-final": {
+      "allOf": [
+        {"$ref": "#/definitions/node" },
+        { "properties" : {
+          "type":{"type":"string","enum": ["final"]}          
+        }}
+      ],
+      "required": ["type","value"]
+    },
+    "node-chance": {
+      "allOf": [
+        {"$ref": "#/definitions/node" },
+        { "properties" : {
+          "type":{"type":"string","enum": ["chance"]},
+          "s":{"type":"number"},          
+          "ev":  {"type":"number"},
+          "nodes": {
+            "type": "array",
+            "items": { "oneOf": [
+              {"allOf": [
+                { "$ref": "#/definitions/node-decision" },
+                { "$ref": "#/definitions/probabilities" }
+              ]},
+              {"allOf": [
+                { "$ref": "#/definitions/node-chance" },
+                { "$ref": "#/definitions/probabilities" }
+              ]},
+              {"allOf": [
+                { "$ref": "#/definitions/node-final" },
+                { "$ref": "#/definitions/probabilities" }
+              ]}
+            ]
+            }
+          }
+        }}
+        ],
+        "required": ["type","nodes"]
+    }     
+  },
+  
+  "type": "object",
+  "properties": {
+    "tree": { "oneOf": [
+              { "$ref": "#/definitions/node-decision" }, 
+              { "$ref": "#/definitions/node-chance" }, 
+              { "$ref": "#/definitions/node-final" } 
+              ]
+            }
+  },
+  "required": ["tree"]
+}
