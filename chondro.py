@@ -87,8 +87,9 @@ def perturb(probs, v, epsilon, maximize):
 def load_tree(file_name, use_fractions=True):
     '''
     Loads a decision tree defintion from a give file.
-    The file can be either a plain dict saved to JSON or a SilverDecisions
-    file. If a SilverDecisions file has several trees only the first is read.
+    The file can be either a plain dict saved to JSON or a SilverDecisions JSON
+    file or a file from previous SilverDecisions version. 
+    If a SilverDecisions file has several trees only the first is read.
 
     *file_name* - a name of the file
 
@@ -100,7 +101,7 @@ def load_tree(file_name, use_fractions=True):
     f.close()
     tree = dict()
     if isinstance(d, list) and '$type' in d[0]:
-        # This is a SilverDecisions file
+        # This is a old version Silverlight SilverDecisions file
         def create_node_from_sd(node_sd):
             '''
             parses a SilverDecisions *.dft node
@@ -143,12 +144,36 @@ def load_tree(file_name, use_fractions=True):
                         child_node['value'] = Fraction(child_node['value']).\
                             limit_denominator()
                 parent_node['nodes'] += [child_node]
+    elif "trees" in d: 
+        #this is a new JavaScript Silverdecisions file
+        tree = None
+        if len(d["trees"]) > 0:
+            node = d["trees"][0]
+            tree = dict()
+            tree = build(node)
+        if use_fractions:
+            go_fractions(tree)
     else:
         tree = d['tree']
         if use_fractions:
             go_fractions(tree)
     return tree
 
+
+def build(node, prob=None, value=None):
+    if node is None or "type" not in node:
+        return {}
+    res = {}
+    res["type"] = node["type"] if node["type"] != "terminal" else "final"
+    res["id"] = node["name"] if "name" in node else ""
+    if prob is not None and prob != "":
+        res["p"] = prob
+    if value is not None and value != "":
+        res["value"] = value
+    if 'childEdges' in node and len(node['childEdges'])>0:
+        res["nodes"] = [build(n['childNode'], n["probability"] if "probability" in n else None,n["payoff"] if "payoff" in n else None ) for n in node['childEdges']]
+    return res
+    
 
 def save_tree(tree, file_name, overwrite=False):
     '''
@@ -1158,3 +1183,5 @@ def get_decision_name(tree, path_tuple):
     else:
         return dec_name +\
             get_decision_name(tree["nodes"][path_tuple[0]], path_tuple[1:])
+
+
