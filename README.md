@@ -16,8 +16,10 @@ Very quick start
     
 
 
-Library overview [for full documentation see the docs folder]
--------------------------------------------------------------
+Library overview
+----------------
+
+(This is just an overview - the full documentation is available at <https://github.com/pszufe/chondro/blob/master/docs/Chondro_v023.pdf>)
 
 *Chondro* – is an analytical engine that implements the decision tree
 (DT) sensitivity analysis (SA) algorithms. All the methods support both 
