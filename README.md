@@ -25,7 +25,7 @@ Library overview
 (DT) sensitivity analysis (SA) algorithms. All the methods support both 
 for separable and non-separable
 decision trees. Chondro has been developed with the Python3 and has been
-tested with Anaconda 2.3.0 running Python3 version 3.4.4.
+tested with Anaconda 2.5.1 running Python3 version 3.5.1.
 
 The software can load files stored by the (available at
 <http://www.silverdecisions.pl>) or uses internal JSON format. A DT is
