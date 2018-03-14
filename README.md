@@ -2,6 +2,13 @@
 Chondro - decision tree sensitivity analysis library 
 ====================================================
 
+This is a library acompying paper: "A framework for sensitivity analysis of decision trees", 
+Central European Journal of Operations Research, March 2018, Volume 26, Issue 1, pp 135–159
+by Bogumił Kamiński, Michał Jakubczyk and Przemysław Szufel
+
+https://link.springer.com/article/10.1007/s10100-017-0479-6
+
+
 Very quick start
 ----------------
 
