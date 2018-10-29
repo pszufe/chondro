@@ -34,8 +34,8 @@ for separable and non-separable
 decision trees. Chondro has been developed with the Python3 and has been
 tested with Anaconda 2.5.1 running Python3 version 3.5.1.
 
-The software can load files stored by the (available at
-<http://www.silverdecisions.pl>) or uses internal JSON format. A DT is
+The software can load files stored by the SilverDecisions software (available at
+<http://www.silverdecisions.pl>) or can use an internal JSON format. A DT is
 presented as a Python dictionary structure with each node described with
 a `type` (choice,decision,final), `id`, `value` (pay-off), and a list
 (`nodes`) containing child nodes. The probability values `p` (for
